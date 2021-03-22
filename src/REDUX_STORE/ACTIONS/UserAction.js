@@ -64,7 +64,7 @@ export const getAllUsers = () => {
 	        	method: 'GET',
 	        	headers: {
 	          		'Content-Type': 'application/json',
-	          		'Authorization': userData.token
+	          		'x-auth': userData.token
 	        	}
       		}
     	);

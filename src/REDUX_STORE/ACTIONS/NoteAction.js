@@ -9,7 +9,7 @@ export const get_notes = () => {
 	        	method: 'GET',
 	        	headers: {
 	          	'Content-Type': 'application/json',
-	          	'Authorization': userData.token
+	          	'x-auth': userData.token
 	        	}
       		}
     	);
@@ -40,7 +40,7 @@ export const share_notes = (note) => {
 	        	method: 'POST',
 	        	headers: {
 	          	'Content-Type': 'application/json',
-	          	'Authorization': userData.token
+	          	'x-auth': userData.token
 	        	},
 	        	body: JSON.stringify({
 					note:{
@@ -70,7 +70,7 @@ export const editNote = (formdata, id) => {
 	        	method: 'PUT',
 	        	headers: {
 	          	'Content-Type': 'application/json',
-	          	'Authorization': userData.token
+	          	'x-auth': userData.token
 	        	},
 		        body: JSON.stringify(
 		        	{
@@ -95,7 +95,7 @@ export const postNote = (formdata) => {
 	        	method: 'POST',
 	        	headers: {
 	          	'Content-Type': 'application/json',
-	          	'Authorization': userData.token
+	          	'x-auth': userData.token
 	        	},
 		        body: JSON.stringify(
 		        	{
@@ -118,7 +118,7 @@ export const delete_note = (id) => {
 	        	method: 'DELETE',
 	        	headers: {
 	          	'Content-Type': 'application/json',
-	          	'Authorization': userData.token
+	          	'x-auth': userData.token
 	        	}
       		}
     	);
