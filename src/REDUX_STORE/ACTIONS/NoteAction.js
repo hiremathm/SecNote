@@ -4,7 +4,7 @@ export const get_notes = () => {
 	return async(dispatch, getState) => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
 		const response = await fetch(
-	      	'http://localhost:3001/notes',
+	      	'https://arcane-sea-09236.herokuapp.com/notes',
 	      	{
 	        	method: 'GET',
 	        	headers: {
@@ -33,7 +33,7 @@ export const get_notes = () => {
 export const share_notes = (note) => {
 	return async(dispatch, getState) => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
-		const url = `http://localhost:3001/notes/${note.note_id}/users/${note.user_id}/authorize-note`
+		const url = `https://arcane-sea-09236.herokuapp.com/notes/${note.note_id}/users/${note.user_id}/authorize-note`
 		const response = await fetch(
 	      	url,
 	      	{
@@ -65,7 +65,7 @@ export const editNote = (formdata, id) => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
 
 		const response = await fetch(
-	      	`http://localhost:3001/notes/${id}`,
+	      	`https://arcane-sea-09236.herokuapp.com/notes/${id}`,
 	      	{
 	        	method: 'PUT',
 	        	headers: {
@@ -90,7 +90,7 @@ export const postNote = (formdata) => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
 
 		const response = await fetch(
-	      	'http://localhost:3001/notes',
+	      	'https://arcane-sea-09236.herokuapp.com/notes',
 	      	{
 	        	method: 'POST',
 	        	headers: {
@@ -113,7 +113,7 @@ export const delete_note = (id) => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
 		console.log("id", id)
 		const response = await fetch(
-	      	'http://localhost:3001/notes/' + id ,
+	      	'https://arcane-sea-09236.herokuapp.com/notes/' + id ,
 	      	{
 	        	method: 'DELETE',
 	        	headers: {

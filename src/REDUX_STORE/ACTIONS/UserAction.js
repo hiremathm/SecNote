@@ -5,7 +5,7 @@ export const SET_USERS = 'SET_USERS'
 export const login = (email, password) => {
 	return async (dispatch, getState) => {
 		const response = await fetch(
-	      	'http://localhost:3001/users/authenticate',
+	      	'https://arcane-sea-09236.herokuapp.com/users/authenticate',
 	      	{
 	        	method: 'POST',
 	        	headers: {
@@ -31,7 +31,7 @@ export const login = (email, password) => {
 export const signup = (email, password) => {
 	return async dispatch => {
 		const response = await fetch(
-	      	'http://localhost:3001/users/signup',
+	      	'https://arcane-sea-09236.herokuapp.com/users/signup',
 	      	{
 	        	method: 'POST',
 	        	headers: {
@@ -59,7 +59,7 @@ export const getAllUsers = () => {
 		const userData = JSON.parse(localStorage.getItem('userData'))
 
 		const response = await fetch(
-	      	'http://localhost:3001/users',
+	      	'https://arcane-sea-09236.herokuapp.com/users',
 	      	{
 	        	method: 'GET',
 	        	headers: {
