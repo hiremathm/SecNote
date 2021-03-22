@@ -1,0 +1,48 @@
+.Button {
+	font: inherit;
+	padding: 1rem;
+	border: 1px solid #ff0055;
+	border-radius: 4px;
+	background: #ff0055;
+	color: white;
+	cursor: pointer;
+	margin-top: 1px;
+	text-decoration: none;
+	display: flex;
+	height: 10px;
+	align-items: center;
+	align-self: center;
+	/*justify-content: center;*/
+}
+
+.Button:focus {
+	outline: none;
+}
+
+.Button:hover,
+.Button:active {
+	background: #ff4382;
+	border-color: #ff4382;
+}
+
+.Button:disabled,
+.Button:hover:disabled,
+.Button:active:disabled {
+	background: #ccc;
+	color: #979797;
+	border-color: #ccc;
+	cursor: not-allowed;
+}
+
+.ButtonSmall {
+  	font-size: 0.8rem;
+	padding: 1px;
+	width: 100%;
+	height: 1rem;
+}
+
+.ButtonBig {
+	font-size: 1.5rem;
+	padding: 3px;
+	width: 100%;
+}

@@ -1,0 +1,61 @@
+.Table {
+	font-size: 15px;
+	display: block;
+	overflow-x: scroll;
+	white-space: nowrap;
+}
+
+.TableSmall {
+	font-size: 15px;
+/*	display: block;
+	overflow-x: scroll;
+	white-space: nowrap;*/
+}
+
+.Table th {
+	height: 30px;
+	background-color: #ff0055;
+	box-sizing: border-box;
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0.26);
+	color: white;
+}
+
+.TableSmall th {
+	height: 30px;
+	background-color: #ff0055;
+	box-sizing: border-box;
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0.26);
+	color: white;
+}
+
+.TableSmall td {
+	border-color: black;
+}
+
+.Table td {
+	/*color: black;*/
+	border-color: black;
+}
+
+@media (min-width: 321px){
+	.Table{
+		font-size: 15px;
+		/*overflow-x: scroll;*/
+		/*display: inline-table;*/
+		/*width: 100%;*/
+		/*white-space: nowrap;*/
+		/*display: inline-block;*/
+		/*overflow: none;*/
+		/*white-space: nowrap;*/
+	}
+}
+
+
+@media (min-width: 1000px){
+	.Table {	
+		font-size: 15px;
+		width: 100%;
+		overflow: hidden;
+		display: inline-table;	
+	}
+}
