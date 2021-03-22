@@ -1,7 +1,8 @@
 import { GET_NOTES } from '../ACTIONS/NoteAction'
 
 const initialState = {
-	notes: []
+	notes: [],
+	shared_notes: []
 }
 
 const noteReducer = (state = initialState, action) => {
