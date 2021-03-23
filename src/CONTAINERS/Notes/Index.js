@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useCallback} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { get_notes, delete_note } from '../../REDUX_STORE/ACTIONS/NoteAction'
 
@@ -24,15 +24,26 @@ const Notes = (props) => {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [showNote, setNote] = React.useState({})
 	const [sharedNote, setSharedNote] = React.useState(false)
+	const [error, setError] = React.useState()
 
 	const dispatch = useDispatch()
+	
+	const getNotes = useCallback(async() => {
+		try {
+			await dispatch(get_notes())
+		}catch(error){
+			console.log('Error is coming', error)
+			setError(error.message)
+		}
+	}, [dispatch, get_notes, setError])
+
 	useEffect(() => {
 		setPulse(true)
-		dispatch(get_notes())
+		getNotes() 
 		setTimeout(() => {
 			setPulse(false)
 		}, 1000)
-	}, [dispatch])
+	}, [dispatch, getNotes])
 
 	const override = css`
 			display: block;
@@ -92,7 +103,7 @@ const Notes = (props) => {
 					style = {{cursor: 'pointer', margin: "10px" }} 
 					size = "25px" 
 					color = "blue" 
-					onClick = {() => props.history.push(`/users/${showNote.id}`)}
+					onClick = {() => props.history.push(`/notes/${showNote.id}/collabrators`)}
 
 				/>
 				</OverlayTrigger>
@@ -106,7 +117,7 @@ const Notes = (props) => {
 					style = {{cursor: 'pointer', margin: "10px" }} 
                     size = "25px" 
                     color = "blue" 
-                                        onClick = {() => setModalShow(false)}
+                    onClick = {() =>  props.history.push(`/users/${showNote.id}`)}
 
 				/>
 				</OverlayTrigger>
@@ -137,6 +148,10 @@ const Notes = (props) => {
 		<div className = {noteCss.Main}>
 			<div className = {noteCss.Notes}>
 				<Row>
+					<Col md = {{span: 9, offset: 1}} xs = {{span: 9, offset: 1}}>
+						<div>{error && <h3>{error}</h3>}</div>
+					</Col>
+
 					<Col md = {{span: 3, offset: 9}} xs = {{span: 5, offset: 7}}>
 						<Button onClick = {() => props.history.push('/notes/new')}>
 							+ Add Note
@@ -150,8 +165,8 @@ const Notes = (props) => {
 		    	<Row>
 					{
 						!show && notes.notes.length > 0 ? (notes.notes.map(note =>
-						<Col xs = {12} sm = {8} md = {6} lg = {4}>
-							<Card key = {note.id} cardStyles = {noteCss.Card}>
+						<Col key = {note.id} xs = {12} sm = {8} md = {6} lg = {4}>
+							<Card  cardStyles = {noteCss.Card}>
 								<div className = {noteCss.metainfo}>
 									<p><b>{note.name.toUpperCase()[0]+note.name.slice(1)}</b></p>
 									<p>{note.description.slice(0,300)}</p>
@@ -182,7 +197,7 @@ const Notes = (props) => {
 								</div>
 							</Card>
 						</Col>
-						)) : (!show && notes.notes.length === 0 && <Col xs = {12} sm = {12} md = {12} lg = {12}><h3>You do not have any notes...!</h3></Col>)
+						)) : (!error && !show && notes.notes.length === 0 && <Col xs = {12} sm = {12} md = {12} lg = {12}><h3>You do not have any notes...!</h3></Col>)
 					}
 				</Row>
 			</div>

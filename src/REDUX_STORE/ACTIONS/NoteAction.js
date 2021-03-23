@@ -15,12 +15,12 @@ export const get_notes = () => {
     	);
 
 		const responseData = await response.json()
+		
 		if(!response.ok){
-			throw new Error("Opps! Something went wrong.")
+			throw new Error("opps Something went wrong")
 		}
 
 		const {notes, shared_notes} = responseData
-		console.log("shared_notes", shared_notes)
 		dispatch(
 			{
 				type: GET_NOTES, 

@@ -1,8 +1,10 @@
-import {AUTHENTICATION, LOGOUT, SET_USERS} from '../ACTIONS/UserAction'
+import {AUTHENTICATION, LOGOUT, SET_USERS, SET_CONTRIBUTORS} from '../ACTIONS/UserAction'
 
 const initialState = {
 	token: null,
-	userId: null
+	userId: null,
+	users: [],
+	contributors: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -18,6 +20,11 @@ const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				users: action.users
+			}
+		case SET_CONTRIBUTORS:
+			return {
+				...state,
+				contributors: action.contributors
 			}
 		default: 
 			return state;

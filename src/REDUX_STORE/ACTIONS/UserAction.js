@@ -1,6 +1,7 @@
 export const AUTHENTICATION = 'AUTHENTICATION'
 export const LOGOUT = 'LOGOUT'
 export const SET_USERS = 'SET_USERS'
+export const SET_CONTRIBUTORS = 'SET_CONTRIBUTORS'
 
 export const login = (email, password) => {
 	return async (dispatch, getState) => {
@@ -19,9 +20,12 @@ export const login = (email, password) => {
     	);
 
 		const responseData = await response.json()
+		
 		if(!response.ok){
+			console.log("errors", responseData)
 			throw new Error(responseData.error.message)
 		}
+
 		dispatch(authenticate(responseData.token, email))
 		saveData(responseData.token)
 		dispatch(getAllUsers())
@@ -71,12 +75,41 @@ export const getAllUsers = () => {
 		const responseData = await response.json()
 
 		if(!response.ok){
+			console.log("errors", responseData)
 		 	throw new Error('Opps! Something went wrong.')
 		}
 		
 		dispatch({
 			type: 'SET_USERS',
 			users: responseData.users
+		})
+	}
+}
+
+export const getAllContributors = (note_id) => {
+	return async dispatch => {
+		const userData = JSON.parse(localStorage.getItem('userData'))
+
+		const response = await fetch(
+	      	`https://arcane-sea-09236.herokuapp.com/notes/${note_id}/users/get_all_collabrators`,
+	      	{
+	        	method: 'GET',
+	        	headers: {
+	          		'Content-Type': 'application/json',
+	          		'x-auth': userData.token
+	        	}
+      		}
+    	);
+		const responseData = await response.json()
+		console.log("contributors", responseData)
+		if(!response.ok){
+			console.log("errors", responseData)
+		 	throw new Error('Opps! Something went wrong.')
+		}
+		
+		dispatch({
+			type: SET_CONTRIBUTORS,
+			contributors: responseData.user_shares
 		})
 	}
 }
