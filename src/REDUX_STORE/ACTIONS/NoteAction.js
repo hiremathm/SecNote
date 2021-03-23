@@ -44,7 +44,7 @@ export const share_notes = (note) => {
 	        	},
 	        	body: JSON.stringify({
 					note:{
-						role_id: 2
+						role_id: note.role_id
 					}	
 				})
       		}

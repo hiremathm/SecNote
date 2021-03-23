@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 
 import {useSelector, useDispatch} from 'react-redux'
 import { share_notes } from '../../REDUX_STORE/ACTIONS/NoteAction'
@@ -35,11 +35,13 @@ const User = (props) => {
 	}
 
 	const [formState, inputHandler] = useForm({
-		user_id: obj
+		user_id: obj,
+		role_id: obj
 	}, false)
 
 	const [isLoading, setIsLoading]= useState(false)
 	const [errorText, setErrorText]= useState()
+	const [roles, setRoles] = useState([])
 	const dispatch = useDispatch()
 
 	const getAllUsers = () => {
@@ -52,6 +54,59 @@ const User = (props) => {
 		return allUsers
 	}
 
+	const getRoles = useCallback(async () => {
+		const userData = JSON.parse(localStorage.getItem('userData'))
+		try {
+			const response = await fetch(
+		      	'https://arcane-sea-09236.herokuapp.com/roles',
+		      	{
+		        	method: 'GET',
+		        	headers: {
+		          		'Content-Type': 'application/json',
+		          		'x-auth': userData.token
+		        	}
+	      		}
+	    	);
+			const responseData = await response.json()
+			const allroles = responseData.roles.map(role => ({value: role.id, text: role.name}))
+			console.log("all roles", allroles)
+			console.log()
+			setRoles(allroles)
+		}catch(error){
+			console.log("error", error)
+		}
+	}, [setRoles])
+
+	const fetchAllRoles = useCallback(async() => {
+		const userData = JSON.parse(localStorage.getItem('userData'))
+
+		try {
+			const response = await fetch(
+		      	'https://arcane-sea-09236.herokuapp.com/roles',
+		      	{
+		        	method: 'GET',
+		        	headers: {
+		          		'Content-Type': 'application/json',
+		          		'x-auth': userData.token
+		        	}
+	      		}
+	    	);
+			const responseData = await response.json()
+			const allroles = responseData.roles.map(role => ({value: role.id, text: role.name}))
+			setRoles(allroles)
+
+		}catch(error){
+			setErrorText(error.message)
+		}
+		
+	}, [setErrorText, setRoles])
+
+
+	useEffect(() => {
+		fetchAllRoles()
+	}, [fetchAllRoles])
+
+
 	const submitHandler = async (e) => {
 		e.preventDefault()
 		
@@ -59,7 +114,8 @@ const User = (props) => {
 			setIsLoading(true)
 			const formData = {
 				user_id: formState.inputs.user_id.value,
-				note_id: id
+				note_id: id,
+				role_id: formState.inputs.role_id.value
 			}
 
 			await dispatch(share_notes(formData))
@@ -77,6 +133,7 @@ const User = (props) => {
 			}, 2000)
 		}
 	}
+
 
 	return (
 		<div className = {classes.NoteForm}>
@@ -102,6 +159,21 @@ const User = (props) => {
 							Inputstyles = {classes.Inputid}
 							value = {formState.inputs.user_id.isValid && formState.inputs.user_id.value}
 							options = {getAllUsers()}
+						/>	
+					</div>
+
+					<div className = {classes.FormGroup}>
+						<Input 
+							inputtype = "select"
+							id = "role_id"
+							onInput = {inputHandler}
+							errortext = "Required"
+							validators = {[VALIDATOR_REQUIRE()]}
+							setlabel = {true}
+							label = "Select Role *"
+							Inputstyles = {classes.Inputid}
+							value = {formState.inputs.role_id.isValid && formState.inputs.role_id.value}
+							options = {roles}
 						/>	
 					</div>
 
